@@ -1,0 +1,28 @@
+function login(token) {
+    if (!token || typeof token !== 'string') {
+        console.error('Invalid token provided');
+        return;
+    }
+
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none'; // Hide the iframe for cleaner UI
+    document.body.appendChild(iframe);
+
+    try {
+        const iframeWindow = iframe.contentWindow;
+        iframeWindow.localStorage.token = `"${token}"`;
+        console.log('Token successfully set in localStorage');
+    } catch (error) {
+        console.error('Error setting token in localStorage:', error);
+    } finally {
+        document.body.removeChild(iframe); // Clean up after setting the token
+    }
+
+    // Reload the page after a slight delay
+    setTimeout(() => {
+        location.reload();
+    }, 500);
+}
+
+// Usage
+login('PASTE TOKEN HERE');
